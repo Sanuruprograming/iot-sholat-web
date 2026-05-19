@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Islam & Saintek - IoT dalam Sholat</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+    <style>
+        body {
+            background-color: #0f1115;
+            color: #f1f1f1;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding-top: 56px;
+            /* space for fixed navbar */
+        }
+
+        .navbar {
+            background: rgba(15, 17, 21, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #2c2f36;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.active-nav {
+            border-bottom-color: #225e7a;
+            box-shadow: 0 0 15px rgba(34, 94, 122, 0.15);
+        }
+
+        .nav-link {
+            position: relative;
+            /* disable transition so color/background changes are instantaneous when switching tabs */
+            transition: none !important;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            /* neutral accent to pair with dark blue text */
+            background: #8da3ad;
+            /* disable underline animation */
+            transition: none !important;
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .nav-link.active {
+            color: #225e7a !important;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background:
+                linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)),
+                url('https://images.unsplash.com/photo-1519817650390-64a93db511aa?q=80&w=1400');
+            background-size: cover;
+            background-position: center;
+            padding: 1rem;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        @media (min-width: 768px) {
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+        }
+
+        .hero span {
+            color: #225e7a;
+        }
+
+        .card-dark {
+            background: #171a21;
+            border: 1px solid #2f3440;
+            border-radius: 18px;
+            transition: 0.3s;
+        }
+
+        .card-dark:hover {
+            transform: translateY(-5px);
+            /* softer, neutral shadow that complements the dark blue */
+            box-shadow: 0 0 20px rgba(34, 94, 122, 0.12);
+        }
+
+        .section-title {
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #0dcaf0;
+        }
+
+        .ayat-box {
+            background: #12151b;
+            border-left: 4px solid #225e7a;
+            padding: 25px;
+            border-radius: 12px;
+        }
+
+        .nav-pills .nav-link.active {
+            background: #225e7a;
+            color: #000;
+        }
+
+        .footer {
+            border-top: 1px solid #2b2f38;
+            padding: 20px;
+            color: #aaa;
+        }
+
+        .iot-icon {
+            font-size: 3rem;
+            color: #225e7a;
+        }
+
+        .card-dark img.img-fluid {
+            display: block;
+            width: 100%;
+            max-width: 200px;
+            height: auto !important;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media (max-width: 767.98px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero {
+                min-height: auto;
+                padding-top: 2rem;
+                padding-bottom: 2rem;
+            }
+
+            .iot-icon {
+                font-size: 2.3rem;
+            }
+
+            .card-dark {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 575.98px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .hero p.lead {
+                font-size: 0.95rem;
+            }
+
+            .nav-link {
+                padding: 0.5rem 0.75rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">
+                <i class="bi bi-cpu"></i> Islam & Saintek
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+
+                <ul class="navbar-nav ms-auto">
+
+                    <li class="nav-item">
+                        <a class="nav-link " href="#home">Home</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#materi">Materi</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#implementasi">Implementasi IoT</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#teknologi">Teknologi</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#tim">Kelompok 8</a>
+                    </li>
+
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 text-center">
+                    <h1>
+                        Perkembangan dan Penggunaan
+                        <span>Internet of Things</span>
+                        dalam Mempermudah
+                        Ibadah Sholat
+                    </h1>
+                    <p class="lead mt-4 text-light">
+                        Integrasi teknologi modern dengan nilai-nilai Islam
+                        dalam membantu umat menjalankan ibadah secara
+                        lebih efektif, tepat waktu, dan nyaman.
+                    </p>
+                    <div class="hero-text mt-3 text-light">
+                        <p class="lead">
+                            Dengan kemajuan perangkat pintar, sistem IoT sekarang
+                            dapat mendukung umat dalam menunaikan kewajiban
+                            agama. Dari pengingat waktu sholat yang akurat,
+                            informasi arah kiblat, hingga pemantauan kondisi masjid,
+                            teknologi ini dirancang untuk melengkapi dan mempermudah
+                            pelaksanaan ibadah tanpa mengorbankan keharmonisan nilai agama.
+                        </p>
+                        <p class="lead">
+                            Pendekatan ini memperkuat nilai Islam yang menekankan
+                            kemudahan, kebaikan, dan tanggung jawab. Perangkat yang
+                            selaras dengan syariat membantu jamaah tetap fokus pada
+                            niat dan kekhusyuan saat berdoa, sekaligus menghadirkan
+                            dukungan praktis bagi kehidupan sehari-hari.
+                        </p>
+                    </div>
+                    <a href="#materi" class="btn btn-info btn-lg mt-4 px-4">
+                        Pelajari Materi
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- AYAT -->
+    <section class="py-5">
+
+        <div class="container">
+
+            <div class="row g-4">
+                <div class="col-12 text-center">
+                    <h2 class="section-title">
+                        Landasan Syariat
+                    </h2>
+                </div>
+
+                <div class="col-md-6">
+
+                    <div class="ayat-box h-100">
+
+                        <h5 class="text-info mb-2">
+                            QS. Al-Baqarah : 185
+                        </h5>
+
+                        <p class="fs-6 fst-italic mb-3">
+                            "Allah menghendaki kemudahan bagimu
+                            dan tidak menghendaki kesulitan bagimu."
+                        </p>
+
+                        <p class="fs-6">
+                            <strong>Penjelasan:</strong> Ayat ini menegaskan bahwa syariat Islam
+                            adalah untuk memberikan kemudahan dan menjauhkan umat dari beban
+                            yang berlebihan. Implementasi IoT dalam konteks ibadah sholat membantu
+                            mewujudkan prinsip ini melalui solusi pengingat waktu, informasi arah
+                            kiblat, dan fasilitas cerdas yang mendukung konsistensi beribadah.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <div class="ayat-box h-100">
+
+                        <h4 class="text-info mb-3">
+                            HR. Sahih Bukhari & Muslim
+                        </h4>
+
+                        <p class="fs-5 fst-italic">
+                            “Permudahlah dan jangan mempersulit,
+                            berilah kabar gembira dan jangan membuat
+                            orang lari.”
+                        </p>
+
+                        <p class="fs-6 mt-3">
+                            <strong>Penjelasan:</strong> Hadis shahih ini mendorong umat Islam untuk
+                            memilih jalan kemudahan dalam menjalankan ibadah. Teknologi IoT yang
+                            dirancang untuk membantu ibadah sholat sejalan dengan ajaran ini karena
+                            menyediakan dukungan praktis tanpa menambahkan kesulitan atau beban.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- MATERI -->
+    <section class="py-5" id="materi">
+
+        <div class="container">
+
+            <h2 class="section-title text-center">
+                Materi Internet of Things dalam Islam
+            </h2>
+
+            <!-- TAB -->
+            <ul class="nav nav-pills mb-4 justify-content-center" id="pills-tab">
+
+                <li class="nav-item">
+                    <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#pengertian">
+                        Pengertian
+                    </button>
+                </li>
+
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="pill" data-bs-target="#perkembangan">
+                        Perkembangan
+                    </button>
+                </li>
+
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="pill" data-bs-target="#manfaat">
+                        Manfaat
+                    </button>
+                </li>
+
+            </ul>
+
+            <div class="tab-content">
+
+                <!-- TAB 1 -->
+                <div class="tab-pane fade show active" id="pengertian">
+
+                    <div class="card card-dark p-4">
+
+                        <h4 class="text-info mb-3">
+                            Apa itu Internet of Things?
+                        </h4>
+
+                        <p class="mb-2 text-white">
+                            Internet of Things (IoT) adalah sebuah ekosistem perangkat
+                            fisik yang saling terhubung melalui jaringan internet untuk
+                            mengumpulkan, mengirim, dan menerima data. Secara sederhana,
+                            IoT memungkinkan benda sehari-hari menjadi "pintar" dengan
+                            kemampuan komunikasi dan otomatisasi.
+                        </p>
+
+                        <h6 class="mt-3 text-white">Bagaimana IoT bekerja</h6>
+                        <p class="mb-2 text-white">
+                            Sistem IoT umumnya tersusun dari beberapa komponen dasar yang
+                            bekerja bersama: perangkat sensor/aktuator, konektivitas (Wi‑Fi,
+                            LoRa, atau jaringan seluler), platform pemrosesan data (cloud
+                            atau server lokal), dan antarmuka pengguna untuk pemantauan
+                            dan pengaturan.
+                        </p>
+
+                        <ol class="mb-2 text-white">
+                            <li>Sensor mengumpulkan data lingkungan, seperti suara, cahaya, atau suhu.</li>
+                            <li>Data dikirim melalui jaringan ke server untuk diproses dan dianalisis.</li>
+                            <li>Hasil pemrosesan dapat memicu aksi otomatis (aktuator) atau
+                                ditampilkan ke pengguna melalui aplikasi atau dashboard.</li>
+                        </ol>
+
+                        <h6 class="mt-3 text-white">Peran IoT dalam konteks ibadah sholat</h6>
+                        <p class="mb-2 text-white">
+                            Dalam lingkungan masjid dan ruang ibadah, IoT menawarkan solusi
+                            praktis yang meningkatkan kenyamanan, ketertiban, dan keteraturan
+                            pelaksanaan sholat. Contohnya termasuk pengingat waktu sholat otomatis,
+                            sistem adzan terjadwal, pemantauan kualitas udara dan suhu ruangan,
+                            serta sistem pencahayaan dan ventilasi yang menyesuaikan kondisi.
+                        </p>
+
+                        <ul class="text-white">
+                            <li>Peningkatan ketepatan waktu ibadah melalui integrasi jadwal dan
+                                notifikasi otomatis.</li>
+                            <li>Monitoring kondisi ruangan sehingga jamaah dapat beribadah dengan
+                                nyaman dan aman.</li>
+                            <li>Pengelolaan fasilitas yang lebih efisien, seperti pengaturan
+                                pencahayaan dan suara secara otomatis.</li>
+                        </ul>
+
+                        <p class="mt-3 mb-0 text-white">
+                            Secara keseluruhan, IoT bukan hanya soal perangkat yang terhubung,
+                            tetapi tentang menciptakan lingkungan yang responsif dan membantu
+                            umat fokus pada ibadah dengan gangguan teknis yang lebih sedikit.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <!-- TAB 2 -->
+                <div class="tab-pane fade" id="perkembangan">
+
+                    <div class="card card-dark p-4">
+
+                        <h4 class="text-info">
+                            Perkembangan Teknologi IoT
+                        </h4>
+
+                        <p class="text-white">
+                            Teknologi Internet of Things (IoT) terus mengalami perkembangan pesat,
+                            didorong oleh kemajuan jaringan nirkabel, kapasitas komputasi awan,
+                            dan kemampuan kecerdasan buatan. Perubahan ini memungkinkan perangkat
+                            berkomunikasi satu sama lain secara otomatis dan memberikan data yang
+                            lebih akurat untuk pengambilan keputusan.
+                        </p>
+
+                        <p class="text-white">
+                            Dalam konteks ibadah, IoT kini tidak hanya menjadi pengingat waktu sholat,
+                            tetapi juga menjadi fondasi sistem masjid pintar yang membantu menciptakan
+                            lingkungan yang lebih nyaman dan aman. Sistem ini mengintegrasikan jadwal
+                            sholat digital, speaker adzan otomatis, serta kontrol pencahayaan dan
+                            ventilasi sesuai kondisi jamaah.
+                        </p>
+
+                        <p class="text-white">
+                            Penerapan teknologi ini memungkinkan pengelolaan fasilitas ibadah yang lebih
+                            efisien, dengan pemantauan kondisi udara, suhu, dan keamanan secara real time.
+                            Dengan pendekatan yang lebih cerdas, umat dapat fokus beribadah tanpa harus
+                            terganggu oleh masalah teknis atau operasional.
+                        </p>
+
+                        <div class="mt-3">
+                            <ul class="text-white">
+                                <li>Integrasi jadwal sholat dan lingkungan masjid dalam satu sistem.</li>
+                                <li>Pengaturan fasilitas otomatis untuk kenyamanan jamaah.</li>
+                                <li>Pemantauan kualitas udara, suhu, dan keamanan secara berkelanjutan.</li>
+                                <li>Peningkatan kualitas ibadah melalui dukungan teknologi yang terencana.</li>
+                            </ul>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- TAB 3 -->
+                <div class="tab-pane fade" id="manfaat">
+
+                    <div class="card card-dark p-4">
+
+                        <h4 class="text-info">
+                            Manfaat IoT dalam Ibadah
+                        </h4>
+
+                        <p class="text-white mb-3">
+                            Pemanfaatan Internet of Things (IoT) dalam kegiatan ibadah membawa perubahan positif yang
+                            nyata bagi pengelolaan masjid. Dengan sistem terintegrasi, masjid menjadi lebih responsif
+                            terhadap kebutuhan jamaah, sehingga pengalaman beribadah terasa lebih nyaman, aman, dan
+                            tertata.
+                        </p>
+
+                        <p class="text-white mb-3">
+                            Implementasi teknologi ini tidak hanya meliputi pengingat waktu sholat, tetapi juga
+                            pengaturan lingkungan ibadah, monitoring fasilitas, dan dukungan operasional yang lebih
+                            baik. Pendekatan yang lebih profesional dan terencana membantu pengurus masjid fokus pada
+                            pelayanan spiritual, sementara aspek teknis dipantau secara otomatis.
+                        </p>
+
+                        <ul class="text-white">
+                            <li>Mempermudah pengingat waktu sholat bagi jamaah dengan informasi yang akurat dan mudah
+                                diakses.</li>
+                            <li>Meningkatkan kenyamanan masjid melalui kontrol pencahayaan, ventilasi, dan suasana yang
+                                konsisten.</li>
+                            <li>Monitoring listrik dan keamanan masjid untuk deteksi dini dan respons yang cepat.</li>
+                            <li>Membantu umat menjaga kedisiplinan ibadah melalui notifikasi dan jadwal yang
+                                terkoordinasi.</li>
+                            <li>Efisiensi penggunaan teknologi keagamaan yang mendukung pengelolaan masjid lebih
+                                berkelanjutan.</li>
+                        </ul>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- IMPLEMENTASI -->
+    <section class="py-5 " id="implementasi">
+
+        <div class="container">
+
+            <h2 class="section-title text-center">
+                Implementasi IoT untuk Ibadah Sholat
+            </h2>
+
+            <div class="row g-4 mt-3">
+
+                <div class="col-md-3">
+
+                    <div class="card card-dark p-4 text-center h-100">
+
+                        <i class="bi bi-phone iot-icon"></i>
+
+                        <h4 class="mt-3 section-title">
+                            Aplikasi Sholat
+                        </h4>
+
+                        <p class="text-white">
+                            Aplikasi seluler terpadu untuk pengingat waktu sholat, notifikasi
+                            lokasi kiblat, serta panduan ibadah dan arah doa dalam antarmuka
+                            yang sederhana dan andal.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <div class="card card-dark p-4 text-center h-100">
+
+                        <i class="bi bi-person-badge iot-icon"></i>
+
+                        <h4 class="mt-3 section-title">
+                            Smart Prayer Mate
+                        </h4>
+
+                        <p class="text-white">
+                            Perangkat pendamping ibadah yang membantu penjadwalan
+                            doa, pengelolaan zikir, dan rekomendasi kegiatan spiritual
+                            berdasarkan kebiasaan pengguna.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <div class="card card-dark p-4 text-center h-100">
+
+                        <i class="bi bi-building iot-icon"></i>
+
+                        <h4 class="mt-3 section-title">
+                            Smart Mosque
+                        </h4>
+
+                        <p class="text-white">
+                            Sistem otomatisasi masjid untuk pengaturan pencahayaan,
+                            ventilasi, dan keamanan dengan pemantauan real-time demi
+                            kenyamanan jamaah.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <div class="card card-dark p-4 text-center h-100">
+
+                        <i class="bi bi-alarm iot-icon"></i>
+
+                        <h4 class="mt-3 section-title">
+                            Smart Adzan
+                        </h4>
+
+                        <p class="text-white">
+                            Solusi adzan otomatis yang terintegrasi dengan kalender
+                            lokal dan sumber waktu akurat untuk memastikan panggilan
+                            sholat tepat waktu.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- TEKNOLOGI -->
+    <section class="py-5" id="teknologi">
+
+        <div class="container">
+
+            <h2 class="section-title text-center">
+                Teknologi yang Digunakan
+            </h2>
+
+            <div class="row g-4 mt-3">
+
+                <div class="col-md-3">
+                    <div class="card card-dark p-4 text-center">
+                        <h4 class="text-white">HTML5</h4>
+                        <p class="text-white">Struktur website modern</p>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card card-dark p-4 text-center">
+                        <h4 class="text-white">CSS3</h4>
+                        <p class="text-white">Desain dark elegant</p>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card card-dark p-4 text-center">
+                        <h4 class="text-white">GitHub</h4>
+                        <p class="text-white">Push and pull repository
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card card-dark p-4 text-center">
+                        <h4 class="text-white">JavaScript</h4>
+                        <p class="text-white">Interaksi dan navigasi</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- TIM -->
+    <section class="py-5" id="tim">
+
+        <div class="container text-center">
+
+            <h2 class="section-title">
+                Kelompok 8
+            </h2>
+
+            <div class="mb-4 card card-dark p-4 text-white">
+                <p class="mb-1">Mata Kuliah : Islam & Saintek</p>
+                <p class="mb-1">Tema : Perkembangan dan Penggunaan Teknologi IoT dalam Mempermudah Ibadah Sholat</p>
+                <hr class="border-secondary">
+                <p>Website ini dibuat sebagai media edukasi mengenai integrasi teknologi modern dengan nilai-nilai Islam
+                    dalam mendukung aktivitas ibadah.</p>
+            </div>
+
+            <!-- Team cards with upload -->
+            <div class="row g-4 justify-content-center">
+
+                <!-- Member 1 -->
+                <div class="col-sm-6 col-md-3">
+                    <div class="card card-dark p-3 text-center h-100 text-white">
+                        <div class="mb-3">
+                            <img id="photo-1" src="assets/images/photo1.jpeg" alt="Photo 1" class="img-fluid rounded"
+                                style="width:200px;height:200px;object-fit:cover;" />
+                        </div>
+                        <h5 id="name-1">Mukhammad Khisanul Labib</h5>
+                        <p class="mb-1" id="id-1">NIM: 102230019</p>
+                        <p class="mb-2" id="class-1">Kelas: IM23B</p>
+                        <!-- Removed upload input; using static asset image -->
+                    </div>
+                </div>
+
+                <!-- Member 2 -->
+                <div class="col-sm-6 col-md-3">
+                    <div class="card card-dark p-3 text-center h-100 text-white">
+                        <div class="mb-3">
+                            <img id="photo-2" src="assets/images/photo2.jpeg" alt="Photo 2" class="img-fluid rounded"
+                                style="width:200px;height:200px;object-fit:cover;" />
+                        </div>
+                        <h5 id="name-2">Naufal Bukhori</h5>
+                        <p class="mb-1" id="id-2">NIM: 102230020</p>
+                        <p class="mb-2" id="class-2">Kelas: IM23B</p>
+                        <!-- Removed upload input; using static asset image -->
+                    </div>
+                </div>
+
+                <!-- Member 3 -->
+                <div class="col-sm-6 col-md-3">
+                    <div class="card card-dark p-3 text-center h-100 text-white">
+                        <div class="mb-3">
+                            <img id="photo-3" src="assets/images/photo3.jfif" alt="Photo 3" class="img-fluid rounded"
+                                style="width:200px;height:200px;object-fit:cover;" />
+                        </div>
+                        <h5 id="name-3"> Virgiano Oxa Satria</h5>
+                        <p class="mb-1" id="id-3">NIM: 102230021</p>
+                        <p class="mb-2" id="class-3">Kelas: IM23B</p>
+                        <!-- Removed upload input; using static asset image -->
+                    </div>
+                </div>
+
+                <!-- Member 4 -->
+                <div class="col-sm-6 col-md-3">
+                    <div class="card card-dark p-3 text-center h-100 text-white">
+                        <div class="mb-3">
+                            <img id="photo-4" src="assets/images/photo4.jpeg" alt="Photo 4" class="img-fluid rounded"
+                                style="width:200px;height:200px;object-fit:cover;" />
+                        </div>
+                        <h5 id="name-4">Alfiyan Faza</h5>
+                        <p class="mb-1" id="id-4">NIM: 102230022</p>
+                        <p class="mb-2" id="class-4">Kelas: IM23B</p>
+                        <!-- Removed upload input; using static asset image -->
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <script>
+        // Preview selected image in the corresponding img element
+        function previewImage(event, imgId) {
+            const input = event.target;
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const img = document.getElementById(imgId);
+                    img.src = e.target.result;
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+
+    <!-- FOOTER -->
+    <footer class="footer text-center">
+
+        <p class="mb-0">
+            © 2026 Kelompok 8 | Islam & Saintek
+        </p>
+
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
