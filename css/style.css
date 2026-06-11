@@ -34,3 +34,180 @@ body {
 footer {
     color: #94a3b8;
 }
+
+/* ==========================
+   DIGITAL WORSHIP FEATURE
+========================== */
+
+.feature-card {
+    background:
+        linear-gradient(145deg, #171a21, #101218);
+    border: 1px solid #29313d;
+    border-radius: 25px;
+    padding: 30px;
+    height: 100%;
+}
+
+
+.prayer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.location-text {
+    color: #8fa3b8;
+    font-size: 14px;
+}
+
+
+.prayer-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-top: 25px;
+}
+
+
+.time-card {
+
+    background: #0e1117;
+    border-radius: 18px;
+    padding: 18px;
+    border: 1px solid #242b36;
+
+}
+
+
+.time-card i {
+
+    font-size: 25px;
+    color: #0dcaf0;
+
+}
+
+
+.time-card h6 {
+
+    color: #aaa;
+    margin-top: 10px;
+
+}
+
+
+.time-card h3 {
+
+    color: white;
+}
+
+
+
+/* COMPASS */
+
+
+.compass-container {
+
+    width: 240px;
+    height: 240px;
+    margin: 20px auto;
+    position: relative;
+
+}
+
+
+
+.compass-ring {
+
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+
+    border: 4px solid #0dcaf0;
+
+    background:
+        radial-gradient(circle,
+            #1b2530,
+            #090b10);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-shadow:
+        0 0 30px rgba(13, 202, 240, .25);
+
+}
+
+
+
+.compass-arrow {
+
+    width: 6px;
+    height: 90px;
+    background: #0dcaf0;
+    position: absolute;
+
+    top: 30px;
+
+    border-radius: 20px;
+
+    transform-origin:
+        bottom center;
+
+    transition: .3s;
+
+}
+
+
+.compass-center {
+
+    width: 30px;
+    height: 30px;
+    background: #fff;
+    border-radius: 50%;
+    z-index: 2;
+
+}
+
+
+.direction {
+
+    display: flex;
+    justify-content: space-around;
+
+    position: absolute;
+    width: 100%;
+    color: #aaa;
+
+}
+
+
+.north {
+    top: 5px;
+}
+
+
+.south {
+    bottom: 5px;
+}
+
+
+.east {
+    right: 5px;
+}
+
+
+.west {
+    left: 5px;
+}
+
+
+
+.status-box {
+
+    background: #0d141c;
+    padding: 15px;
+    border-radius: 15px;
+
+}
