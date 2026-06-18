@@ -443,39 +443,21 @@
 
         .compass-arrow {
 
-
             position: absolute;
 
+            font-size: 70px;
 
-            width: 8px;
+            color: #0dcaf0;
 
-            height: 100px;
+            z-index: 10;
 
+            transition: transform .2s linear;
 
-            background: #0dcaf0;
-
-
-            border-radius: 20px;
-
-
-            top: 30px;
-
-
-            transform-origin:
-
-                bottom center;
-
-
-            transition: .4s;
-
-
-            box-shadow:
-
-                0 0 20px #0dcaf0;
-
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
         }
-
 
 
         .compass-center {
@@ -1728,6 +1710,7 @@
 
 
                                 <div id="arrow" class="compass-arrow">
+                                    <i class="bi bi-caret-up-fill"></i>
                                 </div>
 
 
@@ -1759,9 +1742,10 @@
                             </p>
 
 
-                            <button onclick="startCompass()" class="btn btn-info">
+                            <button onclick="startCompass()" class="btn btn-info px-4">
 
-                                Aktifkan Sensor
+                                <i class="bi bi-compass"></i>
+                                Aktifkan Kompas
 
                             </button>
 
@@ -1789,77 +1773,162 @@
 
     <script>
         // =========================
-        // KOMPAS KIBLAT
+        // KOMPAS KIBLAT FINAL
         // =========================
-
-
 
         let qiblaDirection = 0;
 
+        function calculateQibla(lat, lon) {
 
-        function startCompass() {
+            const kaabaLat = 21.4225 * Math.PI / 180;
+            const kaabaLon = 39.8262 * Math.PI / 180;
 
+            const userLat = lat * Math.PI / 180;
+            const userLon = lon * Math.PI / 180;
+
+            const dLon = kaabaLon - userLon;
+
+            const y = Math.sin(dLon);
+
+            const x =
+                Math.cos(userLat) * Math.tan(kaabaLat)
+                -
+                Math.sin(userLat) * Math.cos(dLon);
+
+            let bearing = Math.atan2(y, x);
+
+            bearing = bearing * 180 / Math.PI;
+
+            return (bearing + 360) % 360;
+        }
+
+        async function startCompass() {
+
+            const status =
+                document.getElementById("qiblaStatus");
+
+            status.innerHTML =
+                "Mengambil lokasi...";
+
+            if (!navigator.geolocation) {
+
+                status.innerHTML =
+                    "GPS tidak didukung";
+
+                return;
+            }
 
             navigator.geolocation.getCurrentPosition(
-                function (pos) {
 
+                async function (pos) {
 
-                    let lat = pos.coords.latitude;
-                    let lon = pos.coords.longitude;
+                    const lat =
+                        pos.coords.latitude;
 
+                    const lon =
+                        pos.coords.longitude;
 
                     qiblaDirection =
                         calculateQibla(lat, lon);
 
-
+                    status.innerHTML =
+                        "Sensor aktif ✓";
 
                     document.getElementById(
-                        "qiblaStatus"
+                        "degree"
                     ).innerHTML =
-                        "Arah kiblat ditemukan";
+                        Math.round(qiblaDirection) + "°";
 
+                    try {
 
-                    window.addEventListener(
-                        "deviceorientation",
-                        compassMove
-                    );
+                        if (
+                            typeof DeviceOrientationEvent !== "undefined" &&
+                            typeof DeviceOrientationEvent.requestPermission === "function"
+                        ) {
 
+                            const permission =
+                                await DeviceOrientationEvent.requestPermission();
 
+                            if (permission === "granted") {
 
-                });
+                                window.addEventListener(
+                                    "deviceorientation",
+                                    compassMove,
+                                    true
+                                );
+
+                            } else {
+
+                                status.innerHTML =
+                                    "Izin sensor ditolak";
+                            }
+
+                        } else {
+
+                            window.addEventListener(
+                                "deviceorientation",
+                                compassMove,
+                                true
+                            );
+
+                        }
+
+                    } catch (error) {
+
+                        console.error(error);
+
+                        status.innerHTML =
+                            "Sensor tidak tersedia";
+                    }
+
+                },
+
+                function (error) {
+
+                    console.error(error);
+
+                    status.innerHTML =
+                        "Izin lokasi ditolak";
+                }
+
+            );
 
         }
 
-
-
-
-
         function compassMove(event) {
 
+            let heading = null;
 
-            let deviceAngle =
-                event.alpha;
+            if (event.webkitCompassHeading) {
 
+                heading =
+                    event.webkitCompassHeading;
 
-            let rotate =
-                qiblaDirection - deviceAngle;
+            } else if (event.alpha !== null) {
 
+                heading =
+                    360 - event.alpha;
+            }
 
-            document.getElementById(
-                "arrow"
-            ).style.transform =
+            if (heading === null) {
+
+                return;
+            }
+
+            const rotate =
+                qiblaDirection - heading;
+
+            const arrow =
+                document.getElementById("arrow");
+
+            arrow.style.transform =
                 `rotate(${rotate}deg)`;
-
 
             document.getElementById(
                 "degree"
             ).innerHTML =
                 Math.round(rotate) + "°";
-
-
         }
-
-
 
 
 
